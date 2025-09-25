@@ -335,7 +335,6 @@
             <button class="nav-tab" onclick="switchTab('admin')">Admin Dashboard</button>
         </div>
 
-        <!-- User/Attendee Tab -->
         <div id="user" class="tab-content active">
             <div class="card">
                 <h2>Wallet Connection</h2>
@@ -381,7 +380,6 @@
             </div>
         </div>
 
-        <!-- Admin Tab -->
         <div id="admin" class="tab-content">
             <div class="admin-section">
                 <h2>Admin Dashboard</h2>
@@ -450,7 +448,7 @@
     <script>
         // Stellar contract configuration
         const CONTRACT_ADDRESS = 'CAHL4HZ52EHYFBCYFQ7FVR4VGOBQKMJLSSAXG6VDBJTY3YHUACDJ665I';
-        const NETWORK_PASSPHRASE = StellarSdk.Networks.TESTNET; // Change to MAINNET for production
+        const NETWORK_PASSPHRASE = StellarSdk.Networks.TESTNET; // i can change to MAINNET for production
         const HORIZON_URL = 'https://horizon-testnet.stellar.org'; // Change for mainnet
         
         let server;
@@ -480,7 +478,7 @@
                     });
                 }
 
-                // Give Freighter more time to inject itself
+                // i gave Freighter more time to inject itself
                 await new Promise(resolve => setTimeout(resolve, 1000));
 
                 // Check multiple possible ways Freighter might be available
@@ -491,9 +489,8 @@
                     freighterApi = window.freighter;
                     console.log('Freighter detected via window.freighter');
                 } else {
-                    // Wait longer and check again
                     let attempts = 0;
-                    const maxAttempts = 30; // 3 seconds total
+                    const maxAttempts = 30; 
                     
                     await new Promise((resolve, reject) => {
                         const checkFreighter = () => {
@@ -559,15 +556,12 @@
         }
 
         function switchTab(tabName) {
-            // Remove active class from all tabs and content
             document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            // Add active class to selected tab and content
             event.target.classList.add('active');
             document.getElementById(tabName).classList.add('active');
             
-            // Update URL hash for navigation (safer than pushState)
             try {
                 if (tabName === 'admin') {
                     window.location.hash = '#admin';
@@ -585,7 +579,6 @@
             element.className = `status-indicator status-${type}`;
             element.classList.remove('hidden');
             
-            // Hide after 5 seconds
             setTimeout(() => {
                 element.classList.add('hidden');
             }, 5000);
@@ -657,7 +650,6 @@
             document.getElementById('checkInBtn').disabled = true;
             document.getElementById('checkInBtn').textContent = 'Connect Wallet to Check In';
             
-            // Update admin buttons
             const initAdminBtn = document.getElementById('initAdminBtn');
             if (initAdminBtn) {
                 initAdminBtn.textContent = 'Connect Wallet to Initialize Admin';
@@ -783,7 +775,7 @@
                 if (result.status === 'SUCCESS') {
                     showStatus('userStatus', 'Successfully checked in! Reward pending distribution.', 'success');
                     document.getElementById('eventCode').value = '';
-                    await loadAttendees(); // Refresh attendee list
+                    await loadAttendees(); 
                 } else {
                     throw new Error('Transaction failed');
                 }
@@ -1020,6 +1012,7 @@
 
             try {
                 const adminAddress = new StellarSdk.Address(userKeypair.publicKey).toScVal();
+                
                 // Convert XLM to stroops (multiply by 10^7)
                 const amountInStroops = new StellarSdk.nativeToScVal(Math.floor(parseFloat(amount) * 10000000), { type: 'i128' });
                 

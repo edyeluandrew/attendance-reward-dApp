@@ -91,7 +91,6 @@ impl AttendanceContract {
         let reward: i128 = env.storage().persistent().get(&DataKey::RewardAmount).unwrap_or(100);
 
         for addr in attendees.iter() {
-            // TODO: Replace with actual XLM transfer logic
             log!(&env, "Distributed {} XLM to {}", reward, addr);
         }
 
